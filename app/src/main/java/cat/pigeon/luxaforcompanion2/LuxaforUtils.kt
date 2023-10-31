@@ -41,7 +41,7 @@ class LuxaforUtils {
 
     private val BLINK_TIMER: Long = 1500
 
-    fun changeToColor(color: Color) {
+    internal fun changeToColor(color: Color) {
         println("Change to $color")
 
         if (ANIMATIONS_ENABLED) {
@@ -69,7 +69,7 @@ class LuxaforUtils {
         luxaforApiCall(ENDPOINT_SOLID_COLOR, color = color)
     }
 
-    private fun pattern(pattern: Pattern): Boolean {
+    internal fun pattern(pattern: Pattern): Boolean {
         println("Pattern to $pattern")
         luxaforApiCall(ENDPOINT_PATTERN, pattern = pattern)
         return true
