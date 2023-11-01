@@ -24,6 +24,8 @@ import cat.pigeon.luxaforcompanion2.ui.theme.LuxaforCompanion2Theme
 
 class MainActivity : ComponentActivity() {
 
+    private val utils = LuxaforUtils()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -38,36 +40,32 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
 
-@Composable
-fun LuxaforButtons() {
-    val utils = LuxaforUtils()
+    @Composable
+    fun LuxaforButtons() {
+        Column(
+            modifier = Modifier.fillMaxWidth().background(Color.Black)
+        ) {
+            LuxaforButton(LuxaforUtils.Color.RED, Color.Red)
+            LuxaforButton(LuxaforUtils.Color.BLUE, Color.Blue)
+            LuxaforButton(LuxaforUtils.Color.GREEN, Color.Green)
+        }
+    }
 
-    Column(
-        modifier = Modifier.fillMaxWidth().background(Color.Black)
-    ) {
-        LuxaforButton(utils, LuxaforUtils.Color.RED, Color.Red)
-        LuxaforButton(utils, LuxaforUtils.Color.BLUE, Color.Blue)
-        LuxaforButton(utils, LuxaforUtils.Color.GREEN, Color.Green)
+    @Composable
+    fun LuxaforButton(color: LuxaforUtils.Color, buttonColor: Color) {
+        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(screenHeight / 3f)
+                .padding(10.dp, 5.dp),
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
+            border = BorderStroke(2.dp, Color.White),
+            onClick = {
+                utils.changeToColor(color)
+            }) {
+        }
     }
 }
-
-@Composable
-fun LuxaforButton(utils: LuxaforUtils, color: LuxaforUtils.Color, buttonColor: Color) {
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(screenHeight / 3f)
-            .padding(10.dp, 5.dp),
-        shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
-        border = BorderStroke(2.dp, Color.White),
-        onClick = {
-        utils.changeToColor(color)
-    }) {
-
-    }
-}
-
