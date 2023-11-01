@@ -3,6 +3,7 @@ package cat.pigeon.luxaforcompanion2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,7 +44,7 @@ fun LuxaforButtons() {
     val utils = LuxaforUtils()
 
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().background(Color.Black)
     ) {
         LuxaforButton(utils, LuxaforUtils.Color.RED, Color.Red)
         LuxaforButton(utils, LuxaforUtils.Color.BLUE, Color.Blue)
