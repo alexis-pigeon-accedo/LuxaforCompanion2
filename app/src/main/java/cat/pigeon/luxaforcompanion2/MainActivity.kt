@@ -3,6 +3,7 @@ package cat.pigeon.luxaforcompanion2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,6 +63,7 @@ fun LuxaforButton(utils: LuxaforUtils, color: LuxaforUtils.Color, buttonColor: C
             .padding(10.dp, 5.dp),
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
+        border = BorderStroke(2.dp, Color.White),
         onClick = {
         utils.changeToColor(color)
     }) {
