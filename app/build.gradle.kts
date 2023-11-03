@@ -53,8 +53,15 @@ android {
 }
 
 dependencies {
+    // Networking libs
     implementation(group = "io.github.rybalkinsd", name = "kohttp", version = "0.12.0")
     implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.12.0")
+
+    // Tools for Compose
+    val composeBom = platform("androidx.compose:compose-bom:2023.10.01")
+    implementation(composeBom)
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("androidx.compose.ui:ui-tooling-preview")
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
