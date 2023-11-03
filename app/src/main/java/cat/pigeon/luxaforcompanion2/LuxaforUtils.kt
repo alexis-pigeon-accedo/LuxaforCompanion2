@@ -85,8 +85,9 @@ class LuxaforUtils {
                         if (color != null) {
                             "color" to color.rgb
                         }
-                        if (pattern != null)
+                        if (pattern != null) {
                             "pattern" to pattern.pattern
+                        }
                     }
                 }
             }
