@@ -51,7 +51,9 @@ class MainActivity : ComponentActivity() {
     @Preview
     fun LuxaforButtons() {
         Column(
-            modifier = Modifier.fillMaxWidth().background(Color.Black)
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Black)
         ) {
             LuxaforButton(LuxaforUtils.Color.RED, Color.Red)
             LuxaforButton(LuxaforUtils.Color.BLUE, Color.Blue)
@@ -82,7 +84,8 @@ class MainActivity : ComponentActivity() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
                 // For Android 12 (S) and above
-                val vibratorManager = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                val vibratorManager =
+                    getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
                 val vibrator = vibratorManager.defaultVibrator
                 vibrator.vibrate(vibrationEffect)
             }

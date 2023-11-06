@@ -37,11 +37,11 @@ class LuxaforUtils {
     private val USER_ID = BuildConfig.luxaforuserid
 
     private var currentColor: Color = Color.GREEN
-    private val ANIMATIONS_ENABLED:Boolean = true
+    private val ANIMATIONS_ENABLED: Boolean = true
 
     private val BLINK_TIMER: Long = 1500
 
-    internal fun changeToColor(color: Color) {
+    fun changeToColor(color: Color) {
         println("Change to $color")
 
         if (ANIMATIONS_ENABLED) {
@@ -52,8 +52,7 @@ class LuxaforUtils {
                     solidColor(color)
                 }, BLINK_TIMER)
             }, BLINK_TIMER)
-        }
-        else {
+        } else {
             solidColor(color)
         }
         currentColor = color
@@ -75,7 +74,7 @@ class LuxaforUtils {
         return true
     }
 
-    private fun luxaforApiCall(endpoint : String, color: Color ?= null, pattern: Pattern ?= null) {
+    private fun luxaforApiCall(endpoint: String, color: Color? = null, pattern: Pattern? = null) {
         httpPostAsync {
             url(BASE_URL + endpoint)
             body {
