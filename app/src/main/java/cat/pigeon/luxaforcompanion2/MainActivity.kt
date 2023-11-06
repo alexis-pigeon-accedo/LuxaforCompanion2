@@ -1,6 +1,11 @@
 package cat.pigeon.luxaforcompanion2
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -66,8 +71,27 @@ class MainActivity : ComponentActivity() {
             colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
             border = BorderStroke(2.dp, Color.White),
             onClick = {
+                vibrate()
                 utils.changeToColor(color)
             }) {
+        }
+    }
+
+    private fun vibrate() {
+        val vibrationEffect = VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                // For Android 12 (S) and above
+                val vibratorManager = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                val vibrator = vibratorManager.defaultVibrator
+                vibrator.vibrate(vibrationEffect)
+            }
+
+            Build.VERSION.SDK_INT <= Build.VERSION_CODES.R -> {
+                // For Android 11 (R) and below
+                val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                vibrator.vibrate(vibrationEffect)
+            }
         }
     }
 }
