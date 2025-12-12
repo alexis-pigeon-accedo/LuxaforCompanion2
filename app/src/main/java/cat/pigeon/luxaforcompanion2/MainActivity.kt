@@ -32,6 +32,8 @@ class MainActivity : ComponentActivity() {
 
     private val utils = LuxaforUtils()
 
+    private val SHOW_BLUE = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -55,8 +57,12 @@ class MainActivity : ComponentActivity() {
                 .fillMaxWidth()
                 .background(Color.Black)
         ) {
+
             LuxaforButton(LuxaforUtils.Color.RED, Color.Red)
-            LuxaforButton(LuxaforUtils.Color.BLUE, Color.Blue)
+
+            if (SHOW_BLUE)
+                LuxaforButton(LuxaforUtils.Color.BLUE, Color.Blue)
+
             LuxaforButton(LuxaforUtils.Color.GREEN, Color.Green)
         }
     }
@@ -64,16 +70,19 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun LuxaforButton(color: LuxaforUtils.Color, buttonColor: Color) {
         val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+        val buttonHeight = if (!SHOW_BLUE) screenHeight / 2f else screenHeight / 3f
+
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(screenHeight / 3f)
+                .height(buttonHeight)
                 .padding(10.dp, 5.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
             border = BorderStroke(2.dp, Color.White),
             onClick = {
-                vibrate()
+                //vibrate()
+                triggerLightningCrackle(this)
                 utils.changeToColor(color)
             }) {
         }
@@ -96,5 +105,57 @@ class MainActivity : ComponentActivity() {
                 vibrator.vibrate(vibrationEffect)
             }
         }
+    }
+
+    private fun triggerLightningCrackle(context: Context) {
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        }
+
+        if (!vibrator.hasVibrator()) {
+            return // No vibrator on this device
+        }
+
+
+        // ## 1. Define the variables for the pattern ##
+        val stepDurationMs = 1L
+        val totalDurationMs = 1000L
+        val amplitude1 = 50
+        val amplitude2 = 200
+        val waitDurationMs = 0L
+
+        // Calculate how many 1ms steps are needed for the total duration
+        val numberOfSteps = (totalDurationMs / stepDurationMs).toInt()
+
+        val timingsList = mutableListOf<Long>()
+        val amplitudesList = mutableListOf<Int>()
+
+        // ## 2. Build the arrays using a loop ##
+        for (i in 0 until numberOfSteps) {
+            // For each step, add a [wait, vibrate] duration pair
+            timingsList.add(waitDurationMs)
+            timingsList.add(stepDurationMs)
+
+            // Determine which amplitude to use for the current step
+            val currentAmplitude = if (i % 2 == 0) amplitude1 else amplitude2
+
+            // Add a corresponding [0, amplitude] pair
+            amplitudesList.add(0) // Amplitude for the wait time is 0
+            amplitudesList.add(currentAmplitude)
+        }
+
+        // Convert the lists to the required array types
+        val timings = timingsList.toLongArray()
+        val amplitudes = amplitudesList.toIntArray()
+
+        // Create the vibration effect from the waveform
+        val vibrationEffect = VibrationEffect.createWaveform(timings, amplitudes, -1)
+        // ^ -1 means do not repeat
+
+        vibrator.vibrate(vibrationEffect)
     }
 }
